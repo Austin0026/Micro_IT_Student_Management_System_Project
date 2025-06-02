@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Announcement{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h2 class="mb-0">Edit Announcement</h2>
+        </div>
+        <div class="col text-end">
+            <a href="{{ url_for('view_announcements') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Announcements
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Announcement Title</label>
+                    <input type="text" class="form-control" id="title" name="title" 
+                           value="{{ announcement[0] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Announcement Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="6" 
+                              required>{{ announcement[1] }}</textarea>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Announcement
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

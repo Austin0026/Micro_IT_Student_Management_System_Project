@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Chat with {{ contact_name }}</title></head>
+<body>
+    <h2>Chat with {{ contact_name }}</h2>
+
+    <div style="border:1px solid #ccc; padding:10px; max-width:500px;">
+        {% for sender_id, receiver_id, content, timestamp in messages %}
+            <p><strong>{{ 'You' if sender_id == session['user_id'] else contact_name }}:</strong> {{ content }}<br>
+            <small>{{ timestamp }}</small></p>
+        {% endfor %}
+    </div>
+
+    <form method="POST">
+    <textarea name="message" required></textarea><br>
+    <input type="submit" value="Send">
+    </form>
+
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

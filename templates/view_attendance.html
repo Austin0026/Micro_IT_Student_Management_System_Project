@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}View Attendance{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h2 class="mb-0">Attendance Records</h2>
+        </div>
+        <div class="col text-end">
+            <a href="{{ url_for('mark_attendance') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Mark Attendance
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Date Range</label>
+                    <select class="form-select">
+                        <option>Today</option>
+                        <option>This Week</option>
+                        <option>This Month</option>
+                        <option>Custom Range</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Class</label>
+                    <select class="form-select">
+                        <option>All Classes</option>
+                        <option>Class A</option>
+                        <option>Class B</option>
+                        <option>Class C</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select class="form-select">
+                        <option>All</option>
+                        <option>Present</option>
+                        <option>Absent</option>
+                        <option>Late</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record[0] }}</td>
+                            <td>John Doe</td>
+                            <td>{{ record[1] }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if record[2] == 'Present' else 'danger' if record[2] == 'Absent' else 'warning' }}">{{ record[2] }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-outline-warning" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Statistics -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Monthly Attendance Overview</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="attendanceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Attendance Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h3 class="text-success">85%</h3>
+                            <p class="text-muted mb-0">Present</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-danger">10%</h3>
+                            <p class="text-muted mb-0">Absent</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-warning">5%</h3>
+                            <p class="text-muted mb-0">Late</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample data for attendance chart
+    new Chart(document.getElementById('attendanceChart'), {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Attendance Rate',
+                data: [95, 88, 92, 85],
+                borderColor: '#28a745',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

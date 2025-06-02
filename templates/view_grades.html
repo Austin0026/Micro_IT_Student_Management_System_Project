@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}View Grades{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h2 class="mb-0">Academic Grades</h2>
+        </div>
+        <div class="col text-end">
+            <a href="{{ url_for('add_grade') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Grade
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Student Name</th>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for grade in grades %}
+                        <tr>
+                            <td>{{ grade[0] }}</td>
+                            <td>{{ grade[1] }}</td>
+                            <td>{{ grade[2] }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if grade[3]|float >= 80 else 'warning' if grade[3]|float >= 60 else 'danger' }}">{{ grade[3] }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-outline-warning" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Distribution Chart -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Grade Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="gradeDistribution" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Subject Performance</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="subjectPerformance" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample data for grade distribution chart
+    new Chart(document.getElementById('gradeDistribution'), {
+        type: 'pie',
+        data: {
+            labels: ['A (80-100)', 'B (60-79)', 'C (Below 60)'],
+            datasets: [{
+                data: [12, 19, 3],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+            }]
+        }
+    });
+
+    // Sample data for subject performance chart
+    new Chart(document.getElementById('subjectPerformance'), {
+        type: 'bar',
+        data: {
+            labels: ['Math', 'Science', 'English', 'History'],
+            datasets: [{
+                label: 'Average Grade',
+                data: [85, 78, 82, 75],
+                backgroundColor: '#007bff'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

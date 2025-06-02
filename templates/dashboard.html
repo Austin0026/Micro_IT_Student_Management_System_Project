@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row g-4">
+    <!-- Students Section -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text">Manage student records and information</p>
+                <a href="{{ url_for('add_student') }}" class="btn btn-primary mb-2">Add Student</a>
+                <a href="{{ url_for('view_students') }}" class="btn btn-outline-primary">View Students</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Section -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Attendance</h5>
+                <p class="card-text">Track and manage student attendance</p>
+                <a href="{{ url_for('mark_attendance') }}" class="btn btn-primary mb-2">Mark Attendance</a>
+                <a href="{{ url_for('view_attendance') }}" class="btn btn-outline-primary">View Attendance</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grades Section -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Grades</h5>
+                <p class="card-text">Manage student grades and academic performance</p>
+                <a href="{{ url_for('add_grade') }}" class="btn btn-primary mb-2">Add Grade</a>
+                <a href="{{ url_for('view_grades') }}" class="btn btn-outline-primary">View Grades</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcements Section -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Announcements</h5>
+                <p class="card-text">Post and manage announcements</p>
+                <a href="{{ url_for('add_announcement') }}" class="btn btn-primary mb-2">Add Announcement</a>
+                <a href="{{ url_for('view_announcements') }}" class="btn btn-outline-primary">View Announcements</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Section -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Messages</h5>
+                <p class="card-text">Communicate with students and staff</p>
+                <a href="{{ url_for('messages') }}" class="btn btn-primary">View Messages</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
